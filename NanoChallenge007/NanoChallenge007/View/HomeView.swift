@@ -6,3 +6,19 @@
 //
 
 import Foundation
+import SwiftUI
+
+struct HomeView: View {
+    var body: some View {
+        
+        HStack{
+            Button(action: {
+            
+            }, label: {
+                Image(systemName: "play.fill")
+            })
+        }
+        
+    }
+}
+
