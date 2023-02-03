@@ -10,19 +10,16 @@ import Foundation
 class DeckUtils : ObservableObject {
     @Published var reshuffle : ShuffleModel? = nil
     
-    func getReshuffle(completion: @escaping (ShuffleModel) -> ()) {
-        guard let url = URL(string: "https://deckofcardsapi.com/api/deck/lvqblg4m6zc8/shuffle/") else {
-            print("nao deu derto")
+    func getReshuffle(deckid: String, completion: @escaping (ShuffleModel) -> ()) {
+        guard let url = URL(string: "https://deckofcardsapi.com/api/deck/\(deckid)/shuffle/") else {
+            print("Erro na URL do reshuffle")
             return
         }
-        URLSession.shared.dataTask(with: url) {
-            data, response, error in
-            let reshuffle = try! JSONDecoder().decode(ShuffleModel.self, from: data!)
-            print(reshuffle)
-            DispatchQueue.main.async {
-                completion(reshuffle)
-            }
-        }.resume()
+        
+        apiCallJson(url: url, object: ShuffleModel.self) { deckModel in
+            self.reshuffle = deckModel as ShuffleModel
+            completion(self.reshuffle ?? ShuffleModel(success: false, deck_id: "", shuffled: false, remaining: 0))
+        }
     }
     
     /**
@@ -30,24 +27,24 @@ class DeckUtils : ObservableObject {
      * url: Passe a url da api nesse parâmetro.
      * object: Passe o modelo do tipo "Deck" que irá receber o JSON (no caso, ShuffleModel ou DrawModel)
      */
-    private func apiCallJson<T:Deck>(url: URL, object: T.Type) -> (any Deck)? {
+    private func apiCallJson<T:Deck>(url: URL, object: T.Type, completion: @escaping (T) -> ()) {
         // api call
-        var deckReturn: (any Deck)? = nil
-        
-        let task = URLSession.shared.dataTask(with: url) { data, _, error in
+        URLSession.shared.dataTask(with: url) {
+            data, response, error in
             guard let data = data, error == nil else { return }
-            
+
             // convert to json
             do {
                 let decodedDeck = try JSONDecoder().decode(object.self, from: data)
-                deckReturn = decodedDeck
+                
+                DispatchQueue.main.async {
+                    if object == ShuffleModel.self { completion(decodedDeck as T) }
+                    else { print("draw aqui") }
+                }
             }
             catch {
                 print(error)
             }
-        }
-        if deckReturn == nil { print("AVISO: o objeto solicitado para API está nulo, algo deu ruim. Confira o link certinho, e se está com o deck_id certinho também.") }
-        
-        return deckReturn ?? nil
+        }.resume()
     }
 }

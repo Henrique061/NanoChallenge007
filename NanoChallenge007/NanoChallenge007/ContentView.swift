@@ -8,15 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var reshuffle : ShuffleModel? = nil
+    @StateObject var deckUtils = DeckUtils()
     
     var body: some View {
         Text("Ola")
             .padding()
             .onAppear() {
-                DeckUtils().getReshuffle { (reshuffle) in
-                    self.reshuffle = reshuffle
-                }
+                deckUtils.getReshuffle(deckid: "lvqblg4m6zc8", completion: { (reshuffle) in
+                    self.deckUtils.reshuffle = reshuffle
+                    print(self.deckUtils.reshuffle!)
+                })
             }.navigationTitle("Olar")
     }
 }
