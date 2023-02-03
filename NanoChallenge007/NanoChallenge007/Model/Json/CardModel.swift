@@ -30,6 +30,15 @@ public enum CardsSuits : String, Codable, CaseIterable {
     case diamonds = "DIAMONDS" // ouros
 }
 
-//public struct CardModel : Codable, Hashable, Identifiable{
-//    
-//}
+public struct CardImages : Codable, Hashable {
+    var svg: String
+    var png: String
+}
+
+public struct CardModel : Codable, Hashable {
+    var code: String
+    var image: String
+    var images: CardImages
+    var value: String
+    var suit: String
+}

@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol Deck: Codable, Hashable, Identifiable {
+protocol Deck: Codable, Hashable {
     var success: Bool { get }
     var deck_id: String { get }
 }

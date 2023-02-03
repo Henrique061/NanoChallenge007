@@ -16,6 +16,8 @@
 		91050A0D298C42AD004DAC98 /* NanoChallenge007UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91050A0C298C42AD004DAC98 /* NanoChallenge007UITestsLaunchTests.swift */; };
 		91050A1E298C56C3004DAC98 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91050A1D298C56C3004DAC98 /* Deck.swift */; };
 		91050A20298C5800004DAC98 /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91050A1F298C5800004DAC98 /* CardModel.swift */; };
+		9190BD6F298D78BB00E8ECE1 /* ShuffleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190BD6E298D78BB00E8ECE1 /* ShuffleModel.swift */; };
+		9190BD73298D79E400E8ECE1 /* DrawModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190BD72298D79E400E8ECE1 /* DrawModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		91050A0C298C42AD004DAC98 /* NanoChallenge007UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NanoChallenge007UITestsLaunchTests.swift; sourceTree = "<group>"; };
 		91050A1D298C56C3004DAC98 /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
 		91050A1F298C5800004DAC98 /* CardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardModel.swift; sourceTree = "<group>"; };
+		9190BD6E298D78BB00E8ECE1 /* ShuffleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuffleModel.swift; sourceTree = "<group>"; };
+		9190BD72298D79E400E8ECE1 /* DrawModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +167,8 @@
 			children = (
 				91050A1D298C56C3004DAC98 /* Deck.swift */,
 				91050A1F298C5800004DAC98 /* CardModel.swift */,
+				9190BD6E298D78BB00E8ECE1 /* ShuffleModel.swift */,
+				9190BD72298D79E400E8ECE1 /* DrawModel.swift */,
 			);
 			path = Json;
 			sourceTree = "<group>";
@@ -298,7 +304,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				91050A1E298C56C3004DAC98 /* Deck.swift in Sources */,
+				9190BD73298D79E400E8ECE1 /* DrawModel.swift in Sources */,
 				91050A20298C5800004DAC98 /* CardModel.swift in Sources */,
+				9190BD6F298D78BB00E8ECE1 /* ShuffleModel.swift in Sources */,
 				910509F1298C42AC004DAC98 /* ContentView.swift in Sources */,
 				910509EF298C42AC004DAC98 /* NanoChallenge007App.swift in Sources */,
 			);
