@@ -20,7 +20,7 @@ struct ContentView: View {
         Text("Ola")
             .padding()
             .onAppear() {
-                self.deckUtils.getReshuffle(deckid: "lvqblg4m6zc8", completion: { (reshuffle) in
+                self.deckUtils.getReshuffle(deckId: "lvqblg4m6zc8", completion: { (reshuffle) in
                     self.gameDeck = reshuffle
                     print(self.gameDeck!)
                 })
