@@ -10,8 +10,8 @@ import Foundation
 class DeckUtils : ObservableObject {
     /**
      * Faz a chamada da API e a converte o JSON para o objeto, retornando o objeto deste tipo.
-     * - url: Passe a url da api nesse parâmetro.
-     * - object: Passe o modelo do tipo "Deck" que irá receber o JSON (no caso, ShuffleModel ou DrawModel)
+     * url: Passe a url da api nesse parâmetro.
+     * object: Passe o modelo do tipo "Deck" que irá receber o JSON (no caso, ShuffleModel ou DrawModel)
      */
     private func apiCallJson<T:Deck>(url: URL, object: T.Type) -> (any Deck)? {
         // api call
