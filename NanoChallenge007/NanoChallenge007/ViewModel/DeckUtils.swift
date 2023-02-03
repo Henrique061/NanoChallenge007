@@ -10,9 +10,14 @@ import Foundation
 class DeckUtils : ObservableObject {
     @Published var reshuffle : ShuffleModel? = nil
     
-    func getReshuffle(deckid: String, completion: @escaping (ShuffleModel) -> ()) {
-        guard let url = URL(string: "https://deckofcardsapi.com/api/deck/\(deckid)/shuffle/") else {
-            print("Erro na URL do reshuffle")
+
+    func getShuffle(completion: @escaping (ShuffleModel) -> Void) {
+        guard let url = URL(string: "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1") else {return}
+    }
+    
+    func getReshuffle(deckId: String, completion: @escaping (ShuffleModel) -> ()) {
+        guard let url = URL(string: "https://deckofcardsapi.com/api/deck/\(deckId)/shuffle/") else {
+            print("nao deu derto")
             return
         }
         
@@ -20,6 +25,10 @@ class DeckUtils : ObservableObject {
             self.reshuffle = deckModel as ShuffleModel
             completion(self.reshuffle ?? ShuffleModel(success: false, deck_id: "", shuffled: false, remaining: 0))
         }
+    }
+    
+    func drawCard(deckId: String, completion: @escaping (DrawModel) -> Void) {
+        guard let url = URL(string: "https://deckofcardsapi.com/api/deck/\(deckId)/draw/?count=2") else {return}
     }
     
     /**

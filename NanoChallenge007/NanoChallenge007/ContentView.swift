@@ -13,6 +13,10 @@ struct ContentView: View {
     @State var gameDeck: ShuffleModel? = nil
     
     var body: some View {
+        VStack {
+            HomeView()
+        }
+        .padding()
         Text("Ola")
             .padding()
             .onAppear() {
