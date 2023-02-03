@@ -9,10 +9,16 @@ import Foundation
 
 class DeckUtils : ObservableObject {
     @Published var reshuffle : ShuffleModel? = nil
+    @Published var draw: DrawModel? = nil
     
 
     func getShuffle(completion: @escaping (ShuffleModel) -> Void) {
         guard let url = URL(string: "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1") else {return}
+        
+        apiCallJson(url: url, object: ShuffleModel.self) { deckModel in
+            self.reshuffle = deckModel as ShuffleModel
+            completion(self.reshuffle ?? ShuffleModel(success: false, deck_id: "", shuffled: false, remaining: 0))
+        }
     }
     
     func getReshuffle(deckId: String, completion: @escaping (ShuffleModel) -> ()) {
@@ -29,6 +35,11 @@ class DeckUtils : ObservableObject {
     
     func drawCard(deckId: String, completion: @escaping (DrawModel) -> Void) {
         guard let url = URL(string: "https://deckofcardsapi.com/api/deck/\(deckId)/draw/?count=2") else {return}
+        
+        apiCallJson(url: url, object: DrawModel.self) { deckModel in
+            self.draw = deckModel as DrawModel
+            completion(self.draw ?? DrawModel(success: false, deck_id: "", cards: [], remaining: 0))
+        }
     }
     
     /**
@@ -47,8 +58,7 @@ class DeckUtils : ObservableObject {
                 let decodedDeck = try JSONDecoder().decode(object.self, from: data)
                 
                 DispatchQueue.main.async {
-                    if object == ShuffleModel.self { completion(decodedDeck as T) }
-                    else { print("draw aqui") }
+                    completion(decodedDeck as T)
                 }
             }
             catch {
