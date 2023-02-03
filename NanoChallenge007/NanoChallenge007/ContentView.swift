@@ -8,19 +8,21 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var reshuffle : ShuffleModel? = nil
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
-        }
-        .padding()
+        Text("Ola")
+            .padding()
+            .onAppear() {
+                DeckUtils().getReshuffle { (reshuffle) in
+                    self.reshuffle = reshuffle
+                }
+            }.navigationTitle("Olar")
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView()
+//    }
+//}
