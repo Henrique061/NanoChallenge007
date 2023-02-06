@@ -11,7 +11,9 @@ class DeckUtils : ObservableObject {
     @Published var reshuffle : ShuffleModel? = nil
     @Published var draw: DrawModel? = nil
     
-
+    /**
+     * Faz a chamada API que retorna um deck totalmente novo e embaralhado.
+     */
     func getShuffle(completion: @escaping (ShuffleModel) -> Void) {
         guard let url = URL(string: "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1") else {return}
         
@@ -21,6 +23,9 @@ class DeckUtils : ObservableObject {
         }
     }
     
+    /**
+     * Faz a chamada API que reembaralha um deck já existente (deve passar o id do deck)
+     */
     func getReshuffle(deckId: String, completion: @escaping (ShuffleModel) -> ()) {
         guard let url = URL(string: "https://deckofcardsapi.com/api/deck/\(deckId)/shuffle/") else {
             print("nao deu derto")
@@ -33,8 +38,11 @@ class DeckUtils : ObservableObject {
         }
     }
     
-    func drawCard(deckId: String, completion: @escaping (DrawModel) -> Void) {
-        guard let url = URL(string: "https://deckofcardsapi.com/api/deck/\(deckId)/draw/?count=2") else {return}
+    /**
+     * Faz a chamada API para puxar uma quantidade de cartas de um deck. Deve passar o id do deck e a quantidade de cartas a ser puxada
+     */
+    func drawCard(deckId: String, drawCount: Int, completion: @escaping (DrawModel) -> Void) {
+        guard let url = URL(string: "https://deckofcardsapi.com/api/deck/\(deckId)/draw/?count=\(drawCount)") else {return}
         
         apiCallJson(url: url, object: DrawModel.self) { deckModel in
             self.draw = deckModel as DrawModel
