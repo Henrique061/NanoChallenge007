@@ -15,20 +15,15 @@ public enum PlayerIds : Int {
 
 public class GameManager : ObservableObject {
     //MARK: VARS
-    private var playerOne: PlayerHand
-    private var playerTwo: PlayerHand
+    @Published var playerOne: PlayerHand
+    @Published var playerTwo: PlayerHand
+    
+    var deckUtils: DeckUtils
+    
     private var startPlayer: PlayerIds
     private var roundNumber: Int
     
     //MARK: GETTERS SETTERS
-    var PlayerOne: PlayerHand {
-        get { return self.playerOne }
-    }
-    
-    var PlayerTwo: PlayerHand {
-        get { return self.playerTwo }
-    }
-    
     var StartPlayer: PlayerIds {
         get { return self.startPlayer }
     }
@@ -41,9 +36,10 @@ public class GameManager : ObservableObject {
     /**
      * Inicializa o game manager, já atribuindo os dois players e o player um começando a jogar na primeira rodada, além da rodada de número 1.
      */
-    public init() {
+    init(deckUtils: DeckUtils) {
         self.playerOne = PlayerHand(id: PlayerIds.p1.rawValue)
         self.playerTwo = PlayerHand(id: PlayerIds.p2.rawValue)
+        self.deckUtils = deckUtils
         self.startPlayer = .p1
         self.roundNumber = 1
     }
