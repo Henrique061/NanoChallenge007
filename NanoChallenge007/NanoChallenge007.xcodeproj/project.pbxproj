@@ -16,6 +16,8 @@
 		91050A0D298C42AD004DAC98 /* NanoChallenge007UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91050A0C298C42AD004DAC98 /* NanoChallenge007UITestsLaunchTests.swift */; };
 		91050A1E298C56C3004DAC98 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91050A1D298C56C3004DAC98 /* Deck.swift */; };
 		91050A20298C5800004DAC98 /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91050A1F298C5800004DAC98 /* CardModel.swift */; };
+		915FEF1D299182150096DB54 /* PlayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 915FEF1C299182150096DB54 /* PlayerModel.swift */; };
+		915FEF1F299184440096DB54 /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 915FEF1E299184440096DB54 /* GameManager.swift */; };
 		9190BD6F298D78BB00E8ECE1 /* ShuffleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190BD6E298D78BB00E8ECE1 /* ShuffleModel.swift */; };
 		9190BD73298D79E400E8ECE1 /* DrawModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190BD72298D79E400E8ECE1 /* DrawModel.swift */; };
 		9190BD75298D80E700E8ECE1 /* DeckUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190BD74298D80E700E8ECE1 /* DeckUtils.swift */; };
@@ -53,6 +55,8 @@
 		91050A0C298C42AD004DAC98 /* NanoChallenge007UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NanoChallenge007UITestsLaunchTests.swift; sourceTree = "<group>"; };
 		91050A1D298C56C3004DAC98 /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
 		91050A1F298C5800004DAC98 /* CardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardModel.swift; sourceTree = "<group>"; };
+		915FEF1C299182150096DB54 /* PlayerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerModel.swift; sourceTree = "<group>"; };
+		915FEF1E299184440096DB54 /* GameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
 		9190BD6E298D78BB00E8ECE1 /* ShuffleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuffleModel.swift; sourceTree = "<group>"; };
 		9190BD72298D79E400E8ECE1 /* DrawModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawModel.swift; sourceTree = "<group>"; };
 		9190BD74298D80E700E8ECE1 /* DeckUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckUtils.swift; sourceTree = "<group>"; };
@@ -155,6 +159,7 @@
 		91050A1A298C42C2004DAC98 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				915FEF1B299181EB0096DB54 /* GameFlow */,
 				9190BD74298D80E700E8ECE1 /* DeckUtils.swift */,
 			);
 			path = ViewModel;
@@ -164,6 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				91050A1C298C42DD004DAC98 /* Json */,
+				915FEF1C299182150096DB54 /* PlayerModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -177,6 +183,14 @@
 				9190BD72298D79E400E8ECE1 /* DrawModel.swift */,
 			);
 			path = Json;
+			sourceTree = "<group>";
+		};
+		915FEF1B299181EB0096DB54 /* GameFlow */ = {
+			isa = PBXGroup;
+			children = (
+				915FEF1E299184440096DB54 /* GameManager.swift */,
+			);
+			path = GameFlow;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -312,11 +326,13 @@
 				91050A1E298C56C3004DAC98 /* Deck.swift in Sources */,
 				9190BD73298D79E400E8ECE1 /* DrawModel.swift in Sources */,
 				91050A20298C5800004DAC98 /* CardModel.swift in Sources */,
+				915FEF1D299182150096DB54 /* PlayerModel.swift in Sources */,
 				9190BD6F298D78BB00E8ECE1 /* ShuffleModel.swift in Sources */,
 				9190BD75298D80E700E8ECE1 /* DeckUtils.swift in Sources */,
 				9190BD77298D84B000E8ECE1 /* HomeView.swift in Sources */,
 				910509F1298C42AC004DAC98 /* ContentView.swift in Sources */,
 				910509EF298C42AC004DAC98 /* NanoChallenge007App.swift in Sources */,
+				915FEF1F299184440096DB54 /* GameManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

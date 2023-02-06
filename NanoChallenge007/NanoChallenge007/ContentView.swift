@@ -23,9 +23,9 @@ struct ContentView: View {
         Text("Ola")
             .padding()
             .onAppear() {
-                self.deckUtils.getReshuffle(deckId: "n62u2fizgpk3", completion: { (reshuffle) in
-                    self.gameDeck = reshuffle
-                    self.deckId = reshuffle.deck_id
+                self.deckUtils.getShuffle(completion: { (shuffle) in
+                    self.gameDeck = shuffle
+                    self.deckId = shuffle.deck_id
                     print(self.gameDeck!)
                     
                     self.deckUtils.drawCard(deckId: self.deckId, drawCount: 1) { draw in
