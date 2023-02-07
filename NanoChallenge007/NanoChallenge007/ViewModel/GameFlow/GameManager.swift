@@ -102,8 +102,8 @@ public class GameManager : ObservableObject {
             if !isDraw { winner = self.checkWinner() }
             
             // atribui o vencedor se nao tiver dado empate
-            if winner == .p1 { self.playerOne.score += 1 }
-            else if winner == .p2 { self.playerTwo.score += 1 }
+            if winner == .p1 { self.playerOne.finalScore += 1 }
+            else if winner == .p2 { self.playerTwo.finalScore += 1 }
             
             // reembaralhando cartas
             self.deckUtils.getReshuffle(deckId: self.deckId) { reshuffle in
@@ -121,16 +121,16 @@ public class GameManager : ObservableObject {
     
     private func checkDraw() -> Bool {
         // dois estouram
-        if playerOne.score > 21 && playerTwo.score > 21 { return true }
+        if playerOne.roundScore > 21 && playerTwo.roundScore > 21 { return true }
         // dois igualam
-        else if playerOne.score == playerTwo.score { return true }
+        else if playerOne.roundScore == playerTwo.roundScore { return true }
         // nao empata
         else { return false }
     }
     
     private func checkWinner() -> PlayerIds {
         // p1 ganha
-        if (self.playerOne.score > self.playerTwo.score && self.playerOne.score <= 21) || self.playerTwo.score > 21 { return .p1 }
+        if (self.playerOne.roundScore > self.playerTwo.roundScore && self.playerOne.roundScore <= 21) || self.playerTwo.roundScore > 21 { return .p1 }
         else { return .p2 }
     }
 }

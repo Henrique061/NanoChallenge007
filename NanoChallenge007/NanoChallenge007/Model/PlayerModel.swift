@@ -12,15 +12,17 @@ import Foundation
  */
 public struct PlayerHand {
     var id: Int
-    var score: Int
+    var roundScore: Int
+    var finalScore: Int
     var hand: [CardModel]
     
     /**
-     * Inicializa um jogador passando todos os seus parametros.
+     * Inicializa um jogador passando todos os seus parametros (OPCIONAL).
      */
-    public init(id: Int, score: Int, hand: [CardModel]) {
+    public init(id: Int, roundScore: Int, finalScore: Int, hand: [CardModel]) {
         self.id = id
-        self.score = score
+        self.roundScore = roundScore
+        self.finalScore = finalScore
         self.hand = hand
     }
     
@@ -29,7 +31,8 @@ public struct PlayerHand {
      */
     public init(id: Int) {
         self.id = id
-        self.score = 0
+        self.roundScore = 0
+        self.finalScore = 0
         self.hand = []
     }
 }
