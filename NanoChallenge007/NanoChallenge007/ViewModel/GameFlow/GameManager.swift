@@ -24,11 +24,16 @@ public class GameManager : ObservableObject {
     
     private var deckId: String
     private var startPlayer: PlayerIds
+    private var actualPlayerTurn: PlayerIds
     private var roundNumber: Int
     
     //MARK: GETTERS SETTERS
     var StartPlayer: PlayerIds {
         get { return self.startPlayer }
+    }
+    
+    var ActualPlayerTurn: PlayerIds {
+        get { return self.actualPlayerTurn }
     }
     
     var RoundNumber: Int {
@@ -48,6 +53,7 @@ public class GameManager : ObservableObject {
         self.playerTwo = PlayerHand(id: PlayerIds.p2.rawValue)
         self.deckUtils = deckUtils
         self.startPlayer = .p1
+        self.actualPlayerTurn = .p1
         self.roundNumber = 1
         
         self.deck = ShuffleModel(success: false, deck_id: "", shuffled: false, remaining: 0)
@@ -76,6 +82,8 @@ public class GameManager : ObservableObject {
             // inicializa qual jogador comeca na rodada
             if self.roundNumber % 2 != 0 { self.startPlayer = .p1 } // se for round numero impar, comeca com o player 1
             else { self.startPlayer = .p2 } // se for round numero par, comeca com player 2
+            
+            self.actualPlayerTurn = self.startPlayer
         }
     }
     
