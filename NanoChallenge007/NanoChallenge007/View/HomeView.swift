@@ -8,22 +8,56 @@
 import Foundation
 import SwiftUI
 
+
+
 struct HomeView: View {
+    @State private var showBottomSheet: Bool = false
     @State var gameDeck: ShuffleModel? = nil
     
     var body: some View {
+      
         
-        HStack{
-            Button(action: {
-                DeckUtils().getShuffle(completion: { (shuffle) in
-                    self.gameDeck = shuffle
-                })
-            
-            }, label: {
-                Image(systemName: "play.fill")
-            })
-        }
-        
+        ZStack {
+            Color.init(red: 0.214, green: 0.458, blue: 0.174)
+                .ignoresSafeArea()
+            VStack {
+                ScoreLabel()
+//                HStack {
+//                    Text("")
+//                }
+                HStack(alignment: .center) {
+                    ZStack(alignment: .center) {
+                        Image("3S")
+                            .resizable()
+                            .frame(width: 70, height: 85, alignment: .top)
+                    }
+                }
+                    HStack {
+                        Buttons()
+                    }
+                    .padding(.horizontal, 20)
+                }
+            }
     }
 }
 
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        HomeView()
+    }
+}
+
+
+
+
+//            ZStack{
+//                Button(action: {
+//                    DeckUtils().getShuffle(completion: { (shuffle) in
+//                        self.gameDeck = shuffle
+//                    })
+//
+//                }, label: {
+//                    Image(systemName: "play.fill")
+//                })
+//

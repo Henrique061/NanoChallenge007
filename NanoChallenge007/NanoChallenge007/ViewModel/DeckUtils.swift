@@ -1,10 +1,3 @@
-//
-//  DeckUtils.swift
-//  NanoChallenge007
-//
-//  Created by Henrique Assis on 03/02/23.
-//
-
 import Foundation
 
 class DeckUtils : ObservableObject {
@@ -18,7 +11,7 @@ class DeckUtils : ObservableObject {
         guard let url = URL(string: "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1") else {return}
         
         apiCallJson(url: url, object: ShuffleModel.self) { deckModel in
-            self.reshuffle = deckModel as ShuffleModel
+            self.reshuffle = deckModel
             completion(self.reshuffle ?? ShuffleModel(success: false, deck_id: "", shuffled: false, remaining: 0))
         }
     }
@@ -45,7 +38,7 @@ class DeckUtils : ObservableObject {
         guard let url = URL(string: "https://deckofcardsapi.com/api/deck/\(deckId)/draw/?count=\(drawCount)") else {return}
         
         apiCallJson(url: url, object: DrawModel.self) { deckModel in
-            self.draw = deckModel as DrawModel
+            self.draw = deckModel
             completion(self.draw ?? DrawModel(success: false, deck_id: "", cards: [], remaining: 0))
         }
     }
@@ -61,7 +54,7 @@ class DeckUtils : ObservableObject {
             data, response, error in
             guard let data = data, error == nil else { return }
 
-            // convert to json
+            // convert from json
             do {
                 let decodedDeck = try JSONDecoder().decode(object.self, from: data)
                 

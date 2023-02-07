@@ -9,29 +9,20 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var deckUtils = DeckUtils()
-    
     @State var gameDeck: ShuffleModel? = nil
-    @State var playerHand: DrawModel? = nil
-    
-    @State var deckId: String = ""
     
     var body: some View {
         VStack {
+            
             HomeView()
         }
         .padding()
         Text("Ola")
             .padding()
             .onAppear() {
-                self.deckUtils.getShuffle(completion: { (shuffle) in
-                    self.gameDeck = shuffle
-                    self.deckId = shuffle.deck_id
+                self.deckUtils.getReshuffle(deckId: "lvqblg4m6zc8", completion: { (reshuffle) in
+                    self.gameDeck = reshuffle
                     print(self.gameDeck!)
-                    
-                    self.deckUtils.drawCard(deckId: self.deckId, drawCount: 1) { draw in
-                        self.playerHand = draw
-                        print(self.playerHand!)
-                    }
                 })
             }.navigationTitle("Olar")
     }
