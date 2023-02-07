@@ -21,17 +21,28 @@ struct HomeView: View {
             Color.init(red: 0.214, green: 0.458, blue: 0.174)
                 .ignoresSafeArea()
             VStack {
-                ScoreLabel()
-//                HStack {
-//                    Text("")
-//                }
+                HStack {
+                    Buttons()
+                }
+                
+                .padding(.horizontal, 20)
+               
                 HStack(alignment: .center) {
                     ZStack(alignment: .center) {
                         Image("3S")
                             .resizable()
-                            .frame(width: 70, height: 85, alignment: .top)
+                            .frame(width: 70, height: 85, alignment: .bottom)
                     }
                 }
+                ScoreLabel().padding(.vertical, 35)
+                    
+                HStack(alignment: .center) {
+                    ZStack(alignment: .center) {
+                        Image("3S")
+                            .resizable()
+                            .frame(width: 70, height: 85, alignment: .bottom)
+                    }
+                }.padding(.top, 200)
                     HStack {
                         Buttons()
                     }

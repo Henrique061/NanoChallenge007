@@ -18,23 +18,24 @@ struct ScoreLabel: View {
     init() {
         self.deckUtils = DeckUtils()
         self.gameManager = GameManager(deckUtils: self.deckUtils, completion: {})
-        self.scorePlayer1 = gameManager.playerOne.score
-        self.scorePlayer2 = gameManager.playerTwo.score
+        self.scorePlayer1 = gameManager.playerOne.finalScore
+        self.scorePlayer2 = gameManager.playerTwo.finalScore
     }
         
     var body: some View {
         HStack {
             Spacer()
             VStack {
-                Text("\(scorePlayer1) - \(scorePlayer2)")
-                    .
-            }
+                Text("1 - \(scorePlayer2)").padding(.top, 160)
+                   
+            }.frame(alignment: .bottom)
+             //   .rotationEffect(Angle(degrees: ))
         }
     }
 }
 
-//struct ScoreLabel_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ScoreLabel()
-//    }
-//}
+struct ScoreLabel_Previews: PreviewProvider {
+    static var previews: some View {
+        ScoreLabel()
+    }
+}
