@@ -24,7 +24,7 @@ public class GameManager : ObservableObject {
     
     private var deckId: String
     private var startPlayer: PlayerIds
-    private var actualPlayerTurn: PlayerIds
+    private var currentPlayerTurn: PlayerIds
     private var roundNumber: Int
     
     //MARK: GETTERS SETTERS
@@ -33,7 +33,7 @@ public class GameManager : ObservableObject {
     }
     
     var ActualPlayerTurn: PlayerIds {
-        get { return self.actualPlayerTurn }
+        get { return self.currentPlayerTurn }
     }
     
     var RoundNumber: Int {
@@ -53,7 +53,7 @@ public class GameManager : ObservableObject {
         self.playerTwo = PlayerHand(id: PlayerIds.p2.rawValue)
         self.deckUtils = deckUtils
         self.startPlayer = .p1
-        self.actualPlayerTurn = .p1
+        self.currentPlayerTurn = .p1
         self.roundNumber = 1
         
         self.deck = ShuffleModel(success: false, deck_id: "", shuffled: false, remaining: 0)
@@ -83,7 +83,7 @@ public class GameManager : ObservableObject {
             if self.roundNumber % 2 != 0 { self.startPlayer = .p1 } // se for round numero impar, comeca com o player 1
             else { self.startPlayer = .p2 } // se for round numero par, comeca com player 2
             
-            self.actualPlayerTurn = self.startPlayer
+            self.currentPlayerTurn = self.startPlayer
         }
     }
     
@@ -91,26 +91,30 @@ public class GameManager : ObservableObject {
     public func hit(completion: @escaping () -> ()) {
         DispatchQueue.main.async {
             self.deckUtils.drawCard(deckId: self.deckId, drawCount: 1) { draw in
+                var player = self.playerOne
                 
-                //                var player = self.playerOne
-                //                if self.actualPlayerTurn == .p2 {
-                //                    player = self.playerTwo
-                //                }
-                //                player.hand.append(contentsOf: draw.cards)
-                
-                if self.actualPlayerTurn == .p1 {
-                    self.playerOne.hand.append(contentsOf: draw.cards)
-                } else {
-                    self.playerTwo.hand.append(contentsOf: draw.cards)
+                if self.currentPlayerTurn == .p2 {
+                    player = self.playerTwo
                 }
-//                self.finishRound{}  //passando a vez pro outro jogador?
+                player.hand.append(contentsOf: draw.cards)
+                
+                if(PlayerUtils.getPlayerRoundScore(playerHand: player) >= 21){
+                    self.stand()
+                }
             }
         }
     }
     
     //MARK: STAND
-    public func stand(completion: @escaping () -> ()) {
-        self.finishRound {}  //??nessa func eu nao chamo api, eu so troco a vez.
+    public func stand() {
+        if(startPlayer == currentPlayerTurn){
+            if(PlayerIds.p1 == currentPlayerTurn){
+                currentPlayerTurn = .p2
+            } else {
+                currentPlayerTurn = .p1
+            }
+        }
+        else {self.finishRound{}}        
     }
     
     //MARK: FINISH ROUND
