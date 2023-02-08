@@ -12,17 +12,23 @@ struct HomeView: View {
     @State var gameDeck: ShuffleModel? = nil
     
     var body: some View {
-        
-        HStack{
-            Button(action: {
-                DeckUtils().getShuffle(completion: { (shuffle) in
-                    self.gameDeck = shuffle
+        VStack{
+            HStack{
+                Button(action: {
+                    DeckUtils().getShuffle() { shuffle in
+//                        self.gameDeck = shuffle
+                    }
+                
+                }, label: {
+                    Image(systemName: "play.fill")
                 })
-            
-            }, label: {
-                Image(systemName: "play.fill")
-            })
+            }
+            if gameDeck != nil {
+                Text("duh")
+            }
         }
+        
+        
         
     }
 }

@@ -89,12 +89,28 @@ public class GameManager : ObservableObject {
     
     //MARK: HIT
     public func hit(completion: @escaping () -> ()) {
-        
+        DispatchQueue.main.async {
+            self.deckUtils.drawCard(deckId: self.deckId, drawCount: 1) { draw in
+                
+                //                var player = self.playerOne
+                //                if self.actualPlayerTurn == .p2 {
+                //                    player = self.playerTwo
+                //                }
+                //                player.hand.append(contentsOf: draw.cards)
+                
+                if self.actualPlayerTurn == .p1 {
+                    self.playerOne.hand.append(contentsOf: draw.cards)
+                } else {
+                    self.playerTwo.hand.append(contentsOf: draw.cards)
+                }
+//                self.finishRound{}  //passando a vez pro outro jogador?
+            }
+        }
     }
     
     //MARK: STAND
     public func stand(completion: @escaping () -> ()) {
-        
+        self.finishRound {}  //??nessa func eu nao chamo api, eu so troco a vez.
     }
     
     //MARK: FINISH ROUND
