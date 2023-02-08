@@ -8,10 +8,19 @@
 import SwiftUI
 
 struct Buttons: View {
+    private var completion: () -> Void
+    
+    init(completion: @escaping () -> Void) {
+        self.completion = completion
+    }
+    
     var body: some View {
         HStack {
-            Button(action: {}) {
+            Button(action: {
+                completion()
+            }) {
                 Text("Hit")
+                
             }
             .frame(alignment: .bottom)
             .buttonStyle(ButtonConfig())
