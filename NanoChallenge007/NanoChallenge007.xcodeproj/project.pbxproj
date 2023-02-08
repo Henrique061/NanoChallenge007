@@ -22,6 +22,7 @@
 		9190BD73298D79E400E8ECE1 /* DrawModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190BD72298D79E400E8ECE1 /* DrawModel.swift */; };
 		9190BD75298D80E700E8ECE1 /* DeckUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190BD74298D80E700E8ECE1 /* DeckUtils.swift */; };
 		9190BD77298D84B000E8ECE1 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190BD76298D84B000E8ECE1 /* HomeView.swift */; };
+		91EBE4082992E9FF0096C23F /* PlayerUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91EBE4072992E9FF0096C23F /* PlayerUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		9190BD72298D79E400E8ECE1 /* DrawModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawModel.swift; sourceTree = "<group>"; };
 		9190BD74298D80E700E8ECE1 /* DeckUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckUtils.swift; sourceTree = "<group>"; };
 		9190BD76298D84B000E8ECE1 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		91EBE4072992E9FF0096C23F /* PlayerUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +163,7 @@
 			children = (
 				915FEF1B299181EB0096DB54 /* GameFlow */,
 				9190BD74298D80E700E8ECE1 /* DeckUtils.swift */,
+				91EBE4072992E9FF0096C23F /* PlayerUtils.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				91050A1E298C56C3004DAC98 /* Deck.swift in Sources */,
+				91EBE4082992E9FF0096C23F /* PlayerUtils.swift in Sources */,
 				9190BD73298D79E400E8ECE1 /* DrawModel.swift in Sources */,
 				91050A20298C5800004DAC98 /* CardModel.swift in Sources */,
 				915FEF1D299182150096DB54 /* PlayerModel.swift in Sources */,
