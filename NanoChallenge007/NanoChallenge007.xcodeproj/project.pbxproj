@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B8FED492992B16C00258282 /* ButtonConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8FED482992B16C00258282 /* ButtonConfig.swift */; };
+		6B8FED4B2992C9C400258282 /* FinalScoreConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8FED4A2992C9C400258282 /* FinalScoreConfig.swift */; };
+		6B8FED4D29941AF600258282 /* RoundScoreConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8FED4C29941AF600258282 /* RoundScoreConfig.swift */; };
 		910509EF298C42AC004DAC98 /* NanoChallenge007App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910509EE298C42AC004DAC98 /* NanoChallenge007App.swift */; };
 		910509F1298C42AC004DAC98 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910509F0298C42AC004DAC98 /* ContentView.swift */; };
 		910509F3298C42AD004DAC98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 910509F2298C42AD004DAC98 /* Assets.xcassets */; };
@@ -43,6 +46,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6B8FED482992B16C00258282 /* ButtonConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonConfig.swift; sourceTree = "<group>"; };
+		6B8FED4A2992C9C400258282 /* FinalScoreConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalScoreConfig.swift; sourceTree = "<group>"; };
+		6B8FED4C29941AF600258282 /* RoundScoreConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundScoreConfig.swift; sourceTree = "<group>"; };
 		910509EB298C42AC004DAC98 /* NanoChallenge007.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NanoChallenge007.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		910509EE298C42AC004DAC98 /* NanoChallenge007App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NanoChallenge007App.swift; sourceTree = "<group>"; };
 		910509F0298C42AC004DAC98 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -164,6 +170,9 @@
 				915FEF1B299181EB0096DB54 /* GameFlow */,
 				9190BD74298D80E700E8ECE1 /* DeckUtils.swift */,
 				91EBE4072992E9FF0096C23F /* PlayerUtils.swift */,
+				6B8FED482992B16C00258282 /* ButtonConfig.swift */,
+				6B8FED4A2992C9C400258282 /* FinalScoreConfig.swift */,
+				6B8FED4C29941AF600258282 /* RoundScoreConfig.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -326,13 +335,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B8FED4D29941AF600258282 /* RoundScoreConfig.swift in Sources */,
 				91050A1E298C56C3004DAC98 /* Deck.swift in Sources */,
 				91EBE4082992E9FF0096C23F /* PlayerUtils.swift in Sources */,
 				9190BD73298D79E400E8ECE1 /* DrawModel.swift in Sources */,
 				91050A20298C5800004DAC98 /* CardModel.swift in Sources */,
 				915FEF1D299182150096DB54 /* PlayerModel.swift in Sources */,
 				9190BD6F298D78BB00E8ECE1 /* ShuffleModel.swift in Sources */,
+				6B8FED492992B16C00258282 /* ButtonConfig.swift in Sources */,
 				9190BD75298D80E700E8ECE1 /* DeckUtils.swift in Sources */,
+				6B8FED4B2992C9C400258282 /* FinalScoreConfig.swift in Sources */,
 				9190BD77298D84B000E8ECE1 /* HomeView.swift in Sources */,
 				910509F1298C42AC004DAC98 /* ContentView.swift in Sources */,
 				910509EF298C42AC004DAC98 /* NanoChallenge007App.swift in Sources */,
@@ -492,7 +504,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"NanoChallenge007/Preview Content\"";
-				DEVELOPMENT_TEAM = 66824UF4JS;
+				DEVELOPMENT_TEAM = DWZ7HM73F4;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -533,7 +545,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"NanoChallenge007/Preview Content\"";
-				DEVELOPMENT_TEAM = 66824UF4JS;
+				DEVELOPMENT_TEAM = DWZ7HM73F4;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
