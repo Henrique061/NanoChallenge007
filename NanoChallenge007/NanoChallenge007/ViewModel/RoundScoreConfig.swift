@@ -34,36 +34,3 @@ struct RoundScoreConfig: View {
         }
     }
 }
-
-//struct RoundScoreConfig_Previews: PreviewProvider {
-//    static var previews: some View {
-//        RoundScoreConfig(roundScorePlayer1: $0, roundScorePlayer2: $0)
-//    }
-//}
-
-
-//struct Tela01: View {
-//
-//    @State private algumTexto = "Alguma coisa escrita"
-//
-//    var body: some View {
-//        VStack {
-//            Text(algumTexto)
-//            Tela02(textoQueVaiVir: $algumTexto)
-//        }
-//    }
-//
-//}
-//
-//struct Tela02: View {
-//
-//    @Binding private var textoQueVaiVir: String
-//
-//    init(textoQueVaiVir: Binding<String>) {
-//        self._textoQueVaiVir = textoQueVaiVir
-//    }
-//
-//    var body: some View {
-//        Text(textoQueVaiVir)
-//    }
-//}

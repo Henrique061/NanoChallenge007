@@ -12,35 +12,26 @@ struct FinalScoreLabel: View {
     var deckUtils: DeckUtils
     //completion é o que acontece quando termina a funcao async
     var gameManager: GameManager
-    @State var finalScorePlayer1: Int
-    @State var finalScorePlayer2: Int
+    @Binding var finalScorePlayer1: Int
+    @Binding var finalScorePlayer2: Int
     
-    init() {
+    init(finalScorePlayer1: Binding<Int>, finalScorePlayer2: Binding<Int>) {
         self.deckUtils = DeckUtils()
         self.gameManager = GameManager(deckUtils: self.deckUtils, completion: {})
-        self.finalScorePlayer1 = gameManager.playerOne.finalScore
-        self.finalScorePlayer2 = gameManager.playerTwo.finalScore
+        self._finalScorePlayer1 = finalScorePlayer1
+        self._finalScorePlayer2 = finalScorePlayer2
     }
     
     var body: some View {
         HStack {
             Spacer()
             VStack {
-                Text("1 - \(finalScorePlayer2)").padding(.horizontal, 20)
+                Text("\(finalScorePlayer2) - \(finalScorePlayer1)").padding(.horizontal, 20)
                     .font(.system(size: 30).bold())
                     .foregroundColor(.white)
                 
-                
             }.frame(alignment: .bottom)
                 .rotationEffect(Angle(degrees: 90), anchor: UnitPoint(x: 0.5, y: 0.5))
-            
-            
         }
-    }
-}
-
-struct FinalScoreLabel_Previews: PreviewProvider {
-    static var previews: some View {
-        FinalScoreLabel()
     }
 }

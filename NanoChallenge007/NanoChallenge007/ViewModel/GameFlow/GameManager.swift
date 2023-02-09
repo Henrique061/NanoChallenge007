@@ -26,6 +26,7 @@ public class GameManager : ObservableObject {
     private var startPlayer: PlayerIds
     private var currentPlayerTurn: PlayerIds
     private var roundNumber: Int
+    private var roundFinished: Bool
     
     //MARK: GETTERS SETTERS
     var StartPlayer: PlayerIds {
@@ -44,6 +45,10 @@ public class GameManager : ObservableObject {
         get { return self.deckId }
     }
     
+    var RoundFinished: Bool {
+        get { return self.roundFinished }
+    }
+    
     //MARK: INIT
     /**
      * Inicializa o game manager, já atribuindo os dois players e o player um começando a jogar na primeira rodada, além da rodada de número 1.
@@ -55,13 +60,17 @@ public class GameManager : ObservableObject {
         self.startPlayer = .p1
         self.currentPlayerTurn = .p1
         self.roundNumber = 1
+        self.roundFinished = false
         
         self.deck = ShuffleModel(success: false, deck_id: "", shuffled: false, remaining: 0)
         self.deckId = ""
-        
+    }
+    
+    public func shuffleDeck(completion: @escaping () -> ()) {
         deckUtils.getShuffle { shuffle in
             self.deck = shuffle
             self.deckId = shuffle.deck_id
+            completion()
         }
     }
     
@@ -69,38 +78,51 @@ public class GameManager : ObservableObject {
     /**
      * Começa o round, distribuindo 2 cartas para cada jogador, e já informando qual jogador começa a rodada
      */
-    public func startRound(completion: @escaping () -> ()) {
+    public func startRound(completion: @escaping () -> Void) {
         DispatchQueue.main.async {
-            // distribui as 2 primeiras cartas para ambos os jogadores
-            self.deckUtils.drawCard(deckId: self.deckId, drawCount: 2) { draw in
-                self.playerOne.hand.append(contentsOf: draw.cards)
-            }
-            self.deckUtils.drawCard(deckId: self.deckId, drawCount: 2) { draw in
-                self.playerTwo.hand.append(contentsOf: draw.cards)
-            }
-            
             // inicializa qual jogador comeca na rodada
             if self.roundNumber % 2 != 0 { self.startPlayer = .p1 } // se for round numero impar, comeca com o player 1
             else { self.startPlayer = .p2 } // se for round numero par, comeca com player 2
             
             self.currentPlayerTurn = self.startPlayer
+            
+            // distribui as 2 primeiras cartas para ambos os jogadores
+            self.deckUtils.drawCard(deckId: self.deckId, drawCount: 4) { draw in
+                var p1Cards: [CardModel] = []
+                var p2Cards: [CardModel] = []
+                
+                p1Cards.append(contentsOf: [draw.cards[0], draw.cards[1]])
+                p2Cards.append(contentsOf: [draw.cards[2], draw.cards[3]])
+                
+                self.playerOne.hand.append(contentsOf: p1Cards)
+                self.playerTwo.hand.append(contentsOf: p2Cards)
+                completion()
+            }
         }
     }
     
     //MARK: HIT
     public func hit(completion: @escaping () -> ()) {
         DispatchQueue.main.async {
-            self.deckUtils.drawCard(deckId: self.deckId, drawCount: 1) { draw in
-                var player = self.playerOne
+            self.deckUtils.drawCard(deckId: self.deckId, drawCount: 1) { [self] draw in
+                var player: PlayerHand
                 
-                if self.currentPlayerTurn == .p2 {
+                if self.currentPlayerTurn == .p1 {
+                    self.playerOne.hand.append(contentsOf: draw.cards)
+                    player = self.playerOne
+                }
+                
+                else {
+                    self.playerTwo.hand.append(contentsOf: draw.cards)
                     player = self.playerTwo
                 }
-                player.hand.append(contentsOf: draw.cards)
                 
                 if(PlayerUtils.getPlayerRoundScore(playerHand: player) >= 21){
                     self.stand()
                 }
+                
+                
+                completion()
             }
         }
     }
@@ -114,7 +136,7 @@ public class GameManager : ObservableObject {
                 currentPlayerTurn = .p1
             }
         }
-        else {self.finishRound{}}        
+        else {self.roundFinished = true}
     }
     
     //MARK: FINISH ROUND
@@ -128,15 +150,11 @@ public class GameManager : ObservableObject {
             
             // checa se empatou e da o vencedor
             if !isDraw { winner = self.checkWinner() }
+            else { self.playerOne.finalScore += 1; self.playerTwo.finalScore += 1 }
             
             // atribui o vencedor se nao tiver dado empate
             if winner == .p1 { self.playerOne.finalScore += 1 }
             else if winner == .p2 { self.playerTwo.finalScore += 1 }
-            
-            // reembaralhando cartas
-            self.deckUtils.getReshuffle(deckId: self.deckId) { reshuffle in
-                self.deck = reshuffle
-            }
             
             // aumentando numero do round
             self.roundNumber += 1
@@ -144,6 +162,14 @@ public class GameManager : ObservableObject {
             // resetando maos dos jogadores
             self.playerOne.hand = []
             self.playerTwo.hand = []
+            
+            self.roundFinished = false
+            
+            // reembaralhando cartas
+            self.deckUtils.getReshuffle(deckId: self.deckId) { reshuffle in
+                self.deck = reshuffle
+                completion()
+            }
         }
     }
     

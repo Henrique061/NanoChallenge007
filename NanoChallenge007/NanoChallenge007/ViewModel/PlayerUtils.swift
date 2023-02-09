@@ -18,7 +18,7 @@ class PlayerUtils {
         if playerHand.hand.isEmpty { return [] }
         
         for card in playerHand.hand {
-            cardsUrl.append(card.images.svg)
+            cardsUrl.append(card.images.png)
         }
         
         return cardsUrl
@@ -30,7 +30,7 @@ class PlayerUtils {
     public static func getLastPlayerCardHand(playerHand: PlayerHand) -> String {
         if playerHand.hand.isEmpty { return "" }
         
-        return playerHand.hand.last?.images.svg ?? ""
+        return playerHand.hand.last?.images.png ?? ""
     }
     
     //MARK: SETTERS
