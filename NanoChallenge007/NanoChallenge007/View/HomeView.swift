@@ -59,7 +59,7 @@ struct HomeView: View {
     
     var body: some View {
         ZStack {
-            Color.init(red: 0.214, green: 0.458, blue: 0.174)
+            Color.init(red: 0, green: 0.306, blue: 0.251)
                 .ignoresSafeArea()
             VStack {
                 HStack {
