@@ -39,11 +39,17 @@ class PlayerUtils {
      */
     public static func getPlayerRoundScore(playerHand: PlayerHand) -> Int {
         if playerHand.hand.isEmpty { return 0 }
-        
+        var aceCount = 0
         var totalValue: Int = 0
         
         for card in playerHand.hand {
             totalValue += self.getCardValue(playerHand: playerHand, cardValue: CardsValue(rawValue: card.value) ?? .ace)
+            if card.value == CardsValue.ace.rawValue { aceCount += 1 }
+        }
+        
+        while totalValue > 21 && aceCount > 0 {
+            totalValue -= 10
+            aceCount -= 1
         }
         
         return totalValue
@@ -52,7 +58,7 @@ class PlayerUtils {
     //MARK: AUX METHODS
     public static func getCardValue(playerHand: PlayerHand, cardValue: CardsValue) -> Int {
         switch cardValue {
-            case .ace: return self.checkAceValue(playerHand: playerHand)
+            case .ace: return 11
             case .two: return 2
             case .three: return 3
             case .four: return 4
@@ -65,21 +71,21 @@ class PlayerUtils {
         }
     }
     
-    public static func checkAceValue(playerHand: PlayerHand) -> Int {
-        if playerHand.hand.isEmpty { return 0 }
-        
-        var aceCount: Int = 0
-        var othersValue: Int = 0
-        
-        for card in playerHand.hand {
-            if card.value == CardsValue.ace.rawValue { aceCount += 1; continue }
-            if aceCount > 1 { return 1 }
-            
-            othersValue += self.getCardValue(playerHand: playerHand, cardValue: CardsValue(rawValue: card.value) ?? .two)
-        }
-        
-        if othersValue > 10 { return 1 }
-        
-        return 11
-    }
+//    public static func checkAceValue(playerHand: PlayerHand) -> Int {
+//        if playerHand.hand.isEmpty { return 0 }
+//
+//        var aceCount: Int = 0
+//        var othersValue: Int = 0
+//
+//        for card in playerHand.hand {
+//            if card.value == CardsValue.ace.rawValue { aceCount += 1; continue }
+//            if aceCount > 1 { return 1 }
+//
+//            othersValue += self.getCardValue(playerHand: playerHand, cardValue: CardsValue(rawValue: card.value) ?? .two)
+//        }
+//
+//        if othersValue > 10 { return 1 }
+//
+//        return 11
+//    }
 }

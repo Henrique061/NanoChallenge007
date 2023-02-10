@@ -27,6 +27,7 @@ public class GameManager : ObservableObject {
     private var currentPlayerTurn: PlayerIds
     private var roundNumber: Int
     private var roundFinished: Bool
+    private var playerWinner: PlayerIds
     
     //MARK: GETTERS SETTERS
     var StartPlayer: PlayerIds {
@@ -49,6 +50,10 @@ public class GameManager : ObservableObject {
         get { return self.roundFinished }
     }
     
+    var PlayerWinner: PlayerIds {
+        get { return self.playerWinner }
+    }
+    
     //MARK: INIT
     /**
      * Inicializa o game manager, já atribuindo os dois players e o player um começando a jogar na primeira rodada, além da rodada de número 1.
@@ -61,6 +66,7 @@ public class GameManager : ObservableObject {
         self.currentPlayerTurn = .p1
         self.roundNumber = 1
         self.roundFinished = false
+        self.playerWinner = .none
         
         self.deck = ShuffleModel(success: false, deck_id: "", shuffled: false, remaining: 0)
         self.deckId = ""
@@ -80,6 +86,8 @@ public class GameManager : ObservableObject {
      */
     public func startRound(completion: @escaping () -> Void) {
         DispatchQueue.main.async {
+            self.roundFinished = false
+            
             // inicializa qual jogador comeca na rodada
             if self.roundNumber % 2 != 0 { self.startPlayer = .p1 } // se for round numero impar, comeca com o player 1
             else { self.startPlayer = .p2 } // se for round numero par, comeca com player 2
@@ -129,12 +137,19 @@ public class GameManager : ObservableObject {
     
     //MARK: STAND
     public func stand() {
+        var player: PlayerHand
+        
         if(startPlayer == currentPlayerTurn){
             if(PlayerIds.p1 == currentPlayerTurn){
                 currentPlayerTurn = .p2
             } else {
                 currentPlayerTurn = .p1
             }
+            
+            if self.currentPlayerTurn == .p1 { player = playerOne }
+            else { player = playerTwo }
+            
+            if PlayerUtils.getPlayerRoundScore(playerHand: player) == 21 { self.roundFinished = true; return }
         }
         else {self.roundFinished = true}
     }
@@ -163,11 +178,10 @@ public class GameManager : ObservableObject {
             self.playerOne.hand = []
             self.playerTwo.hand = []
             
-            self.roundFinished = false
-            
             // reembaralhando cartas
             self.deckUtils.getReshuffle(deckId: self.deckId) { reshuffle in
                 self.deck = reshuffle
+                self.playerWinner = winner
                 completion()
             }
         }

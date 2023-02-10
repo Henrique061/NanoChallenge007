@@ -4,6 +4,15 @@ class DeckUtils : ObservableObject {
     @Published var reshuffle : ShuffleModel? = nil
     @Published var draw: DrawModel? = nil
     
+    func getNewDeck(completion: @escaping (ShuffleModel) -> Void) {
+        guard let url = URL(string: "https://www.deckofcardsapi.com/api/deck/new/shuffle/?cards=AS,AD,AC,AH") else {return}
+        
+        apiCallJson(url: url, object: ShuffleModel.self) { deckModel in
+            self.reshuffle = deckModel
+            completion(self.reshuffle ?? ShuffleModel(success: false, deck_id: "", shuffled: false, remaining: 0))
+        }
+    }
+    
     /**
      * Faz a chamada API que retorna um deck totalmente novo e embaralhado.
      */

@@ -21,33 +21,54 @@ struct Buttons: View {
             Button(action: {
                 hitCompletion()
             }) {
-                Text("Hit")
+                Text("Hit ⬇️")
                 
             }
             .frame(alignment: .bottom)
-            .buttonStyle(ButtonConfig())
+            .buttonStyle(ButtonConfig(.hit))
             
             Button(action: {
                 standCompletion()
             }) {
-                Text("Stand")
+                Text("Stand ✋")
             }
             .frame(alignment: .bottom)
-            .buttonStyle(ButtonConfig())
+            .buttonStyle(ButtonConfig(.stand))
         }.frame(maxHeight: .infinity, alignment: .bottom)
     }
 }
 
+public enum ButtonType {
+    case hit
+    case stand
+}
 
 struct ButtonConfig: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
+    var r: CGFloat
+    var g: CGFloat
+    var b: CGFloat
+    
+    init(_ buttonType: ButtonType) {
+        if buttonType == .hit {
+            self.r = 0.393
+            self.g = 0.704
+            self.b = 0.246
+        }
         
+        else {
+            self.r = 0.904
+            self.g = 0.139
+            self.b = 0.139
+        }
+    }
+    
+    func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.headline.bold())
             .foregroundColor(.white)
             .frame(height: 44)
             .frame(maxWidth: .infinity, alignment: .bottom)
-            .background(Color.init(red: 0.704, green: 0.494, blue: 0.246))
+            .background(Color.init(red: r, green: g, blue: b, opacity: 0.9))
             .cornerRadius(8)
     }
 }

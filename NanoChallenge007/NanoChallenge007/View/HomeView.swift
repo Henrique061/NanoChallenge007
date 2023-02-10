@@ -11,6 +11,7 @@ import SwiftUI
 
 
 struct HomeView: View {
+    //MARK: VARS
     @StateObject private var gameManager = GameManager(deckUtils: DeckUtils(), completion: {})
     @State private var showBottomSheet: Bool = false
     @State var gameDeck: ShuffleModel? = nil
@@ -20,33 +21,47 @@ struct HomeView: View {
     @State var canHit: Bool = false
     @State var notP1Turn: Bool = false
     @State var notP2Turn: Bool = true
+    @State var turnMessage: String = "↓ YOUR TURN ↓"
+    @State var turnMessageRotation: CGFloat = 0
+    @State var canStart: Bool = true
     
+    let turnString = "↓ YOUR TURN ↓"
+    let winnerString = "🎉 ↓ YOU WIN ↓ 🎉"
+    let drawString = "🟡 ↓ DRAW ↑ 🟡"
+    
+    //MARK: START GAME
     func startGame() {
         self.p1CardsUrls = PlayerUtils.getPlayerCardsImagesUrl(playerHand: self.gameManager.playerOne)
         self.p2CardsUrls = PlayerUtils.getPlayerCardsImagesUrl(playerHand: self.gameManager.playerTwo)
     }
     
+    //MARK: BUTTON OPACITY
     func buttonOpacity(notTurn: Bool) -> CGFloat {
         if notTurn { return 0.5 }
-        else { return 1.0 }
+        else { return 0.9 }
     }
     
+    //MARK: TOGGLE TURN
     func toggleTurn() {
         self.notP1Turn.toggle()
         self.notP2Turn.toggle()
     }
     
+    //MARK: CHECK ROUND FINISH
     func checkRoundFinish() {
         if self.gameManager.RoundFinished {
             self.notP2Turn = true
             self.notP1Turn = true
             self.gameManager.finishRound {
-                self.gameManager.startRound(completion: self.startRound)
+                self.checkTurnMessage()
             }
         }
     }
     
+    //MARK: START ROUND
     func startRound() {
+        var player: PlayerHand
+        
         p1CardsUrls = PlayerUtils.getPlayerCardsImagesUrl(playerHand: self.gameManager.playerOne)
         p2CardsUrls = PlayerUtils.getPlayerCardsImagesUrl(playerHand: self.gameManager.playerTwo)
         self.gameManager.playerOne.roundScore = PlayerUtils.getPlayerRoundScore(playerHand: self.gameManager.playerOne)
@@ -55,36 +70,94 @@ struct HomeView: View {
         
         self.notP1Turn = self.gameManager.StartPlayer == .p2
         self.notP2Turn = self.gameManager.StartPlayer == .p1
+        
+        if self.gameManager.StartPlayer == .p1 { player = self.gameManager.playerOne }
+        else { player = self.gameManager.playerTwo }
+        
+        self.canStart = true
+        self.checkTurnMessage()
+        
+        if PlayerUtils.getPlayerRoundScore(playerHand: player) == 21 { self.standPhase() }
     }
     
+    //MARK: STAND PHASE
+    func standPhase() {
+        self.gameManager.stand()
+        self.toggleTurn()
+        self.checkTurnMessage()
+        self.checkRoundFinish()
+    }
+    
+    //MARK: HIT PHASE
+    func hitPhase(_ playerId: PlayerIds) {
+        if self.canHit {
+            self.canHit = false
+            self.gameManager.hit {
+                if playerId == .p1 {
+                    self.gameManager.playerOne.roundScore = PlayerUtils.getPlayerRoundScore(playerHand: self.gameManager.playerOne)
+                    p1CardsUrls.append(PlayerUtils.getLastPlayerCardHand(playerHand: self.gameManager.playerOne))
+                    
+                    self.notP1Turn = self.gameManager.playerOne.roundScore >= 21
+                    if notP1Turn {  self.notP2Turn = false }
+                }
+                
+                else {
+                    self.gameManager.playerTwo.roundScore = PlayerUtils.getPlayerRoundScore(playerHand: self.gameManager.playerTwo)
+                    p2CardsUrls.append(PlayerUtils.getLastPlayerCardHand(playerHand: self.gameManager.playerTwo))
+                    
+                    self.notP2Turn = self.gameManager.playerTwo.roundScore >= 21
+                    if notP2Turn {  self.notP1Turn = false }
+                }
+                
+                self.canHit = true
+                self.checkRoundFinish()
+            }
+        }
+    }
+    
+    //MARK: TURN MESSAGE
+    func checkTurnMessage() {
+        if !self.gameManager.RoundFinished {
+            self.turnMessage = self.turnString
+            if self.gameManager.ActualPlayerTurn == .p1 { self.turnMessageRotation = 0 }
+            else { self.turnMessageRotation = 180 }
+        }
+        
+        else {
+            if self.gameManager.PlayerWinner != .none {
+                self.turnMessage = self.winnerString
+                
+                if self.gameManager.PlayerWinner == .p1 { self.turnMessageRotation = 0 }
+                else { self.turnMessageRotation = 180 }
+            }
+            
+            else {
+                self.turnMessageRotation = 0
+                self.turnMessage = self.drawString
+            }
+            
+            DispatchQueue.global().asyncAfter(deadline: .now() + 3.0, qos: .background) {
+                if self.canStart {
+                    self.canStart = false
+                    self.gameManager.startRound(completion: self.startRound)
+                }
+                
+            }
+        }
+    }
+    
+    //MARK: BODY
     var body: some View {
         ZStack {
             Color.init(red: 0, green: 0.306, blue: 0.251)
                 .ignoresSafeArea()
             VStack {
                 HStack {
-                    // -- Botoes P2
+                    //MARK: BUTTONS P2
                     Buttons(hitCompletion: {
-                        print("butao")
-                        if self.canHit {
-                            print("butao sucesso")
-                            self.canHit = false
-                            self.gameManager.hit {
-                                self.gameManager.playerTwo.roundScore = PlayerUtils.getPlayerRoundScore(playerHand: self.gameManager.playerTwo)
-                                p2CardsUrls.append(PlayerUtils.getLastPlayerCardHand(playerHand: self.gameManager.playerTwo))
-                                self.canHit = true
-                                self.notP2Turn = self.gameManager.playerTwo.roundScore >= 21
-                                
-                                if notP2Turn {  self.notP1Turn = false }
-                                self.checkRoundFinish()
-                            }
-                        }
-                        
+                        self.hitPhase(.p2)
                     }, standCompletion: {
-                        print("stand")
-                        self.gameManager.stand()
-                        self.toggleTurn()
-                        self.checkRoundFinish()
+                        self.standPhase()
                         
                     }).rotationEffect(Angle(degrees: 180))
                         .padding(.top, 50)
@@ -93,7 +166,7 @@ struct HomeView: View {
                 }
                 
                 .padding(.horizontal, 70)
-                // -- cards P2
+                //MARK: CARDS P2
                 HStack(alignment: .center, spacing: -50) {
                     ForEach(p2CardsUrls, id: \.self) { cardUrl in
                         ZStack {
@@ -105,17 +178,17 @@ struct HomeView: View {
                         }
                     }
                 }.padding(.top, 20)
-                // -- Score P2
+                //MARK: SCORE P2
                 RoundScoreConfig(roundScorePlayer1: $gameManager.playerOne.roundScore, roundScorePlayer2: $gameManager.playerTwo.roundScore, isPlayerOne: false).rotationEffect(Angle(degrees: 180))
                 
-                // -- final score
-                FinalScoreLabel(finalScorePlayer1: $gameManager.playerOne.finalScore, finalScorePlayer2: $gameManager.playerTwo.finalScore)
+                //MARK: FINAL SCORE
+                FinalScoreLabel(finalScorePlayer1: $gameManager.playerOne.finalScore, finalScorePlayer2: $gameManager.playerTwo.finalScore, turnMessage: $turnMessage, turnMessageRotation: $turnMessageRotation)
                     .padding(.vertical, 10)
                 
-                // -- Score P1
+                //MARK: SCORE P1
                 RoundScoreConfig(roundScorePlayer1: $gameManager.playerOne.roundScore, roundScorePlayer2: $gameManager.playerTwo.roundScore)
                 
-                // -- cards P1
+                //MARK: CARDS P1
                 HStack(alignment: .center, spacing: -50) {
                     ForEach(p1CardsUrls, id: \.self) { cardUrl in
                         ZStack {
@@ -128,27 +201,11 @@ struct HomeView: View {
                     }
                 }.padding(.bottom, 20)
                 HStack {
-                    // -- Botoes P1
+                    //MARK: BUTTONS P1
                     Buttons(hitCompletion: {
-                        print("butao")
-                        if self.canHit {
-                            print("butao sucesso")
-                            self.canHit = false
-                            self.gameManager.hit {
-                                self.gameManager.playerOne.roundScore = PlayerUtils.getPlayerRoundScore(playerHand: self.gameManager.playerOne)
-                                p1CardsUrls.append(PlayerUtils.getLastPlayerCardHand(playerHand: self.gameManager.playerOne))
-                                self.canHit = true
-                                self.notP1Turn = self.gameManager.playerOne.roundScore >= 21
-                                
-                                if notP1Turn {  self.notP2Turn = false }
-                                self.checkRoundFinish()
-                            }
-                        }
-                        
+                        self.hitPhase(.p1)
                     }, standCompletion: {
-                        self.gameManager.stand()
-                        self.toggleTurn()
-                        self.checkRoundFinish()
+                        self.standPhase()
                         
                     }).padding(.bottom, 50)
                         .disabled(self.notP1Turn)
