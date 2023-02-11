@@ -20,7 +20,7 @@ struct HomeView: View {
         
         
         ZStack {
-            Color.init(red: 0.214, green: 0.458, blue: 0.174)
+            Color.init(red: 0, green: 0.306, blue: 0.251)
                 .ignoresSafeArea()
             VStack {
                 HStack {
@@ -64,10 +64,10 @@ struct HomeView: View {
     }
 }
 
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
-    }
-}
+//
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        HomeView()
+//    }
+//}
 
