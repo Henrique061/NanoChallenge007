@@ -9,8 +9,7 @@ import SwiftUI
 
 struct LaunchScreen: View {
     @State private var isActive = false
-        //@State private var angle = 180
-    @State private var angle = Angle(degrees: 180)
+    @State private var size = 0.8
     
     var body: some View {
         if isActive {
@@ -22,13 +21,15 @@ struct LaunchScreen: View {
                     Image("logo")
                         .resizable()
                         .frame(width: 130, height: 130)
-                       .rotationEffect(angle)
+                        .scaleEffect(size)
                     }
+                
+        
        
                 .edgesIgnoringSafeArea(.all)
                 .onAppear {
-                    withAnimation(.easeIn(duration: 1.2)) {
-                        self.angle = angle
+                    withAnimation(.easeIn(duration: 1.3)) {
+                        self.size = 0.9
                     }
                 }
             }
@@ -36,7 +37,6 @@ struct LaunchScreen: View {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                     withAnimation {
                         self.isActive = true
-                        
                         
                         }
                     }
