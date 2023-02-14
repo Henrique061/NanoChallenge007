@@ -60,6 +60,8 @@ struct HomeView: View {
     
     //MARK: START ROUND
     func startRound() {
+        //if !canStart { return }
+        
         var player: PlayerHand
         
         p1CardsUrls = PlayerUtils.getPlayerCardsImagesUrl(playerHand: self.gameManager.playerOne)
@@ -74,7 +76,6 @@ struct HomeView: View {
         if self.gameManager.StartPlayer == .p1 { player = self.gameManager.playerOne }
         else { player = self.gameManager.playerTwo }
         
-        self.canStart = true
         self.checkTurnMessage()
         
         if PlayerUtils.getPlayerRoundScore(playerHand: player) == 21 { self.standPhase() }
@@ -124,6 +125,8 @@ struct HomeView: View {
         }
         
         else {
+            self.canStart = true
+            
             if self.gameManager.PlayerWinner != .none {
                 self.turnMessage = self.winnerString
                 
@@ -136,10 +139,10 @@ struct HomeView: View {
                 self.turnMessage = self.drawString
             }
             
-            DispatchQueue.global().asyncAfter(deadline: .now() + 3.0, qos: .background) {
+            DispatchQueue.global().asyncAfter(deadline: .now() + 2.0, qos: .background) {
                 if self.canStart {
-                    self.canStart = false
                     self.gameManager.startRound(completion: self.startRound)
+                    self.canStart = false
                 }
                 
             }
@@ -170,11 +173,19 @@ struct HomeView: View {
                 HStack(alignment: .center, spacing: -50) {
                     ForEach(p2CardsUrls, id: \.self) { cardUrl in
                         ZStack {
-                            AsyncImage(url: URL(string: cardUrl), content: { cardImage in
-                                cardImage.image?.resizable()
-                            })
+                            AsyncImage(url: URL(string: cardUrl)) { cardImage in
+                                cardImage.resizable()
+                            } placeholder: {
+                                ProgressView()
+                            }
                                 .clipShape(Rectangle())
                                 .frame(width: 100, height: 140, alignment: .bottom)
+
+//                            AsyncImage(url: URL(string: cardUrl), content: { cardImage in
+//                                cardImage.image?.resizable()
+//                            })
+//                                .clipShape(Rectangle())
+//                                .frame(width: 100, height: 140, alignment: .bottom)
                         }
                     }
                 }.padding(.top, 20)
