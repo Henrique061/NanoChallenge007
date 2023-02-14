@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LaunchScreen: View {
     @State private var isActive = false
-    @State private var size = 0.8
+    @State private var size = 0.7
     
     var body: some View {
         if isActive {
@@ -20,7 +20,7 @@ struct LaunchScreen: View {
                     Color.init(red: 0, green: 0.306, blue: 0.251)
                     Image("logo")
                         .resizable()
-                        .frame(width: 130, height: 130)
+                        .frame(width: 150, height: 150)
                         .scaleEffect(size)
                     }
                 
@@ -29,7 +29,7 @@ struct LaunchScreen: View {
                 .edgesIgnoringSafeArea(.all)
                 .onAppear {
                     withAnimation(.easeIn(duration: 1.3)) {
-                        self.size = 0.9
+                        self.size = 1.2
                     }
                 }
             }
