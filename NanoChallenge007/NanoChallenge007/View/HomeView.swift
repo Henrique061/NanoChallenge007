@@ -203,9 +203,11 @@ struct HomeView: View {
                 HStack(alignment: .center, spacing: -50) {
                     ForEach(p1CardsUrls, id: \.self) { cardUrl in
                         ZStack {
-                            AsyncImage(url: URL(string: cardUrl), content: { cardImage in
-                                cardImage.image?.resizable()
-                            })
+                            AsyncImage(url: URL(string: cardUrl)) { cardImage in
+                                cardImage.resizable()
+                            } placeholder: {
+                                ProgressView()
+                            }
                                 .clipShape(Rectangle())
                                 .frame(width: 100, height: 140, alignment: .bottom)
                         }
